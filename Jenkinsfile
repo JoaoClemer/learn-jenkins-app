@@ -1,28 +1,11 @@
 pipeline {
     agent any
 
-    options {
-        skipDefaultCheckout(true)
-    }
-
     environment {
         NETLIFY_SITE_ID = '599cab75-756b-4e29-9254-320200b54337'
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
     }
     stages {
-
-        stage( 'Clean Workspace') {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    reuseNode true
-                    args '-u root:root'
-                }
-            }
-            steps {
-                deleteDir()
-            }
-        }
 
         stage('Build') {
             agent {
@@ -32,7 +15,6 @@ pipeline {
                 }
             }
             steps {
-                checkout scm
                 sh '''
                     ls -la
                     node --version
