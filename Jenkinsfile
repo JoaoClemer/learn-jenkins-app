@@ -6,6 +6,11 @@ pipeline {
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
     }
     stages {
+
+        stage('Clean Workspace') {
+            deleteDir()
+        }
+        
         stage('Build') {
             agent {
                 docker {
