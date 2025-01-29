@@ -6,7 +6,8 @@ pipeline {
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
     }
     stages {
-        stage('Build') {
+
+        stage( 'Clean Workspace') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -16,6 +17,17 @@ pipeline {
             }
             steps {
                 deleteDir()
+            }
+        }
+
+        stage('Build') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
+            steps {
                 sh '''
                     ls -la
                     node --version
@@ -47,7 +59,6 @@ pipeline {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
                     reuseNode true
-                    args '-u root:root'
                 }
             }
             steps {
