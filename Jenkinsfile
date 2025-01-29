@@ -8,9 +8,11 @@ pipeline {
     stages {
 
         stage('Clean Workspace') {
-            deleteDir()
+            steps {
+                deleteDir()
+            }
         }
-        
+
         stage('Build') {
             agent {
                 docker {
